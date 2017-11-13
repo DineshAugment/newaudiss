@@ -1,0 +1,96 @@
+﻿@model  PagedList.IPagedList<EndToEnd.Models.Control>
+@using PagedList.Mvc;
+<style>
+    .Audit.Administrator {
+        background-color: #fbfbba;
+    }
+
+    .Testing.Administrator {
+        background-color: #98d590;
+    }
+
+    .Draft.Administrator {
+        background-color: #ffbd86;
+    }
+</style>
+
+@{string roleName = "";
+    if (User.IsInRole("Auditor"))
+    {
+        roleName = "Auditor";
+    }
+    else if (User.IsInRole("Tester"))
+    {
+        roleName = "Tester";
+    }
+    else
+    {
+        roleName = "Administrator";
+    }
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Control Name")
+            </th>
+            <th>
+                @Html.DisplayName("Current Status")
+            </th>
+            <th>
+                @Html.DisplayName("Pending With")
+            </th>
+            <th>
+                @Html.DisplayName("Created Date")
+            </th>
+            <th align="center">
+                @Html.DisplayName("Download")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                var row = item.Workflows.Where(model => model.StatusTo.Contains("Testing")).ToList();
+                <tr class="@item.Status @roleName">
+                    <td width="300">
+                        @Html.ActionLink(item.ControlName, "Details", new { id = item.ControlID })
+                    </td>
+                    <td width="300">
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td width="300">
+                        @Html.DisplayFor(modelItem => item.CreatedBy)
+                    </td>
+                    <td width="300">
+                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                    </td>
+                    <td width="100" align="center">
+                        <a href="@Url.Action("HTMLToPDF","Home",new {id=item.ControlID })"><img src="~/Images/pdf.png" /></a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" align="center">No records found</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model,
+    page_partial => Url.Action("Index",
+    new
+    {
+        page_partial,
+        searchStringUserNameOrEmail = ViewBag.searchStringUserNameOrEmail,
+        currentFilter_partial = ViewBag.CurrentFilter
+    }))

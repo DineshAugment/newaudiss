@@ -1,0 +1,151 @@
+﻿@model EndToEnd.Models.Control
+@{
+    ViewBag.Title = "CreateCtrl";
+}
+<style>
+   
+</style>
+<h2>Create Control</h2>
+
+@using (Html.BeginForm("CreateCtrl", "Home", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ControlName, htmlAttributes: new { @class = "control-label col-md-2 mandatory" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ControlName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ControlName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CustomerName, htmlAttributes: new { @class = "control-label col-md-2 mandatory" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.Label("Upload Attachment", new { @class = "control-label col-md-2" })
+            <div class="col-md-10" id="fileList">
+                <div class="div-upload-file">
+                    <input type="file" name="files" value="" multiple="multiple" />
+                    <p>Drop files here</p>
+                </div>
+                <div id="fileNameList"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ControlType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ControlType, new SelectList(ViewBag.ControlType, "Name", "Name", ViewBag.SelectedItem))
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DatasSource, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.DatasSource, new SelectList(ViewBag.ActiveDirectoryDetails, "DomainName", "Category", ViewBag.SelectedItem))
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <input type="hidden" id="ADD_ID" name="ADD_ID" />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+
+        <table class="table" id="ADdetails">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayName("Username")
+                    </th>
+                    <th>
+                        @Html.DisplayName("EmailID")
+                    </th>
+                    <th>
+                        @Html.DisplayName("First Name")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Created Date")
+                    </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+}
+
+<div class="div-backtolist">
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+}
+
+<script>
+    $(document).ready(function () {
+        var formData = new FormData();
+        $("#createctrl a").addClass("selected");
+        $("#createcontrol img").prop("src", "/Images/createcontrol1.png");
+
+        $("#DatasSource").on('change',
+            function () {
+                var strDSName = $("#DatasSource").val();
+                formData.set('username', strDSName);
+                if (strDSName) {
+                    var str = "";
+                    $.ajax({
+                        type: "GET",
+                        url: '@Url.Action("GetDetails", "ActiveDirectory")',
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: { strDomainName: strDSName },
+                        success: function (data) {
+                            if (data) {
+                                $("#ADD_ID").val(data[0].ADD_ID);
+                                for (var i = 0; i < data.length; i++) {
+                                    var pattern = /Date\(([^)]+)\)/;
+                                    var results = pattern.exec(data[i].CreatedDate);
+                                    var dt = new Date(parseFloat(results[1]));
+                                    var formattedDate = (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
+                                    str += "<tr><td>" + data[i].UserName + "</td><td>" + data[i].EmailID + "</td><td>" + data[i].FirstName + "</td><td>" + formattedDate + "</td></tr>";
+                                    $("#ADdetails tbody").html(str);
+                                }
+                            }
+                        },
+                        error: function () {
+                            $("#ADdetails tbody").html(str);
+                        }
+                    });
+                }
+                else { $("#ADdetails tbody").empty(); }
+            });
+
+        $("input[type='file']").change(function () {
+            var files = $(this)[0].files;
+            var str = "";
+            for (var i = 0; i < files.length; i++) {
+                 str += "<p>" + files[i].name + "</p>";
+            }
+            $("#fileList #fileNameList").html(str);
+        });
+    });
+</script>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0b0ae939eed8486a83b1b3d3d01361a6" Name="Diagram1">
+        <EntityTypeShape EntityType="audissModel.C__MigrationHistory" Width="1.5" PointX="5.75" PointY="8.75" />
+        <EntityTypeShape EntityType="audissModel.ActiveDirectoryDetail" Width="1.875" PointX="7.75" PointY="9.75" />
+        <EntityTypeShape EntityType="audissModel.ActiveDirectoryUser" Width="2.125" PointX="3" PointY="1.25" />
+        <EntityTypeShape EntityType="audissModel.AspNetRole" Width="1.5" PointX="5.75" PointY="3.75" />
+        <EntityTypeShape EntityType="audissModel.AspNetUserClaim" Width="1.5" PointX="10.25" PointY="3.5" />
+        <EntityTypeShape EntityType="audissModel.AspNetUserLogin" Width="1.5" PointX="10.25" PointY="6.25" />
+        <EntityTypeShape EntityType="audissModel.AspNetUser" Width="1.5" PointX="8" PointY="3.875" />
+        <EntityTypeShape EntityType="audissModel.Control" Width="1.5" PointX="0.75" PointY="3.625" />
+        <EntityTypeShape EntityType="audissModel.ControlType" Width="1.5" PointX="9.75" PointY="9.75" />
+        <EntityTypeShape EntityType="audissModel.FileDetail" Width="1.5" PointX="3" PointY="4.5" />
+        <EntityTypeShape EntityType="audissModel.StatusDetail" Width="1.5" PointX="8" PointY="1.125" />
+        <EntityTypeShape EntityType="audissModel.Workflow" Width="1.5" PointX="3" PointY="7.25" />
+        <AssociationConnector Association="audissModel.FK__ActiveDir__Contr__4AB81AF0" />
+        <AssociationConnector Association="audissModel.FK__StatusDetail__Id__267ABA7A" />
+        <AssociationConnector Association="audissModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="audissModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="audissModel.FK__FileDetai__Contr__25869641" />
+        <AssociationConnector Association="audissModel.FK__Workflow__Contro__276EDEB3" />
+        <AssociationConnector Association="audissModel.AspNetUserRoles" />
+        <AssociationConnector Association="audissModel.FK__Workflow__Assign__6E01572D" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

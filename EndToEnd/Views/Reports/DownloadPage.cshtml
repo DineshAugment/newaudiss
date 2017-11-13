@@ -1,0 +1,104 @@
+﻿@model PagedList.IPagedList<EndToEnd.Models.Workflow>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "DownloadPage";
+    Layout = "";
+}
+<style>
+    .form-group {
+        padding: 16px 0;
+    }
+
+    .tbl-srch input[type='text'] {
+        padding: 0 6px;
+    }
+
+    .tbl-srch tbody tr td {
+        padding: 0 10px;
+    }
+
+    .tbl-srch {
+        margin: 1.5% 0;
+    }
+
+    #divControlList table {
+        width: 100%;
+        margin: 39px 0;
+        border: 0;
+    }
+</style>
+<div id="divControlList">
+    <table class="table">
+        <tr>
+            <th width="180px">
+                @Html.DisplayName("Control Name")
+            </th>
+            <th width="350px">
+                @Html.DisplayName("Action Date")
+            </th>
+            <th width="150px">
+                @Html.DisplayName("Action By")
+            </th>
+            <th width="120px">
+                @Html.DisplayName("Status From")
+            </th>
+            <th width="120px">
+                @Html.DisplayName("Status To")
+            </th>
+            <th width="200px">
+                @Html.DisplayName("Comments")
+            </th>
+            <th></th>
+        </tr>
+
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Control.ControlName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActionDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActionBy)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StatusFrom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StatusTo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comments)
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" align="center">No records found</td>
+            </tr>
+        }
+
+    </table>
+</div>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model,
+    page => Url.Action("Index",
+    new
+    {
+        page,
+        searchStringUserNameOrEmail = ViewBag.searchStringUserNameOrEmail,
+        currentFilter = ViewBag.CurrentFilter
+    }))
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#report a").addClass("selected");
+    });
+</script>

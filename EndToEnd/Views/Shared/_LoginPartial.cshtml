@@ -1,0 +1,179 @@
+﻿<style type="text/css">
+    #header .user {
+        height: auto;
+        margin: 20px 0;
+        position: relative;
+        width: 280px;
+    }
+
+    .right {
+        float: right;
+    }
+
+    .user ul {
+        float: right;
+    }
+
+    .user li {
+        float: left;
+        margin-left: 10px;
+    }
+
+        .user li a {
+            color: #F2F1F1;
+            text-transform: capitalize;
+        }
+
+            .user li a div {
+                background: -moz-linear-gradient(center top, #EAEAEA, #BDBDBD) repeat scroll 0 0 rgba(0, 0, 0, 0);
+                background: -webkit-linear-gradient(top, #EAEAEA, #BDBDBD);
+                background: -o-linear-gradient(top, #EAEAEA, #BDBDBD);
+                border: 1px solid #E6E6E6;
+                border-radius: 7px;
+                box-shadow: 0 0 10px #FFFFFF inset;
+                float: left;
+                height: 45px;
+                width: 50px;
+            }
+
+                .user li a div img {
+                    border: 1px solid #89898D;
+                    margin: 5px 8px;
+                }
+
+                .user li a div img {
+                    border: 1px solid #89898d;
+                    height: 77%;
+                    left: 66.2%;
+                    margin: 5px 8px;
+                    top: 1%;
+                    width: 71%;
+                }
+
+    .user .l-dd li {
+        border-top: 1px solid #69aad7;
+        float: none;
+        height: 35px;
+        margin: 0;
+        width: 199px;
+        border-width: 1px;
+    }
+
+        .user .l-dd li .cpw {
+            background: rgba(0, 0, 0, 0) url("../Images/ico-cp.png") repeat scroll 0 0;
+            float: left;
+            height: 15px;
+            margin: 12px -3px 0px 24px;
+            width: 23px;
+        }
+
+    .l-dd li .lout {
+        float: left;
+        height: 19px;
+        margin: 8px 0 0 26px;
+        width: 18px;
+    }
+
+    .user .l-dd li .stngs {
+        background: url("../Images/sprite.png") no-repeat scroll -28px -118px rgba(0, 0, 0, 0);
+        float: left;
+        height: 20px;
+        margin: 15px 0 0 15px;
+        width: 18px;
+    }
+
+    .user .l-dd {
+        background: #0078C9;
+        border-radius: 10px;
+        display: none;
+        float: right;
+        height: auto;
+        margin: 50px 0 0 100px;
+        padding-bottom: 3px;
+        position: absolute;
+        width: 200px;
+        z-index: 9;
+        border: 1px #DBE8F2 solid;
+    }
+
+    *, * li {
+        list-style-type: none;
+    }
+
+    #menu2 a {
+        line-height: 2.6;
+        margin: 17px;
+    }
+
+    .nav.navbar-nav.navbar-right {
+        margin: 8px 0 0;
+    }
+   
+    /*.selected {
+        background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top, #eaeaea, #bdbdbd) repeat scroll 0 0 !important;
+        border: 1px solid #e6e6e6 !important;
+        box-shadow: 0 0 10px #fff inset !important;
+    }*/
+
+</style>
+
+@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <div class="user right">
+                    <ul>
+                        <li>
+                            <a href="#">
+                            </a><a id="ADisplayStudioName" title="" style="padding-right:0px; background-position:right bottom; margin: 15px 2px 0 0;float:left;cursor:default;">
+                                @User.Identity.GetUserName()
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <div class="user_profile_image">
+                                    <img id="EMPLOYEEPHOTO" src="~/Images/client.jpg" alt="User">
+                                </div>
+                            </a>
+                        </li>
+                        <li><a href="#" id="s-ldd"><img src="~/Images/u-dd.png" style="top: 21px;position: absolute;" alt="Show More"></a></li>
+                    </ul>
+
+                    <div class="l-dd" id="l-dd">
+                        <ul id="menu2">
+                            <li>
+                                <div class="cpw"></div>
+                                <a href="/Manage/ChangePassword" class="">
+                                    Change Password
+                                </a>
+                            </li>
+                            <li style="border-bottom:none;">
+                                <div class="lout"></div>
+                                <a href="javascript:document.getElementById('logoutForm').submit()" id="signout">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    }
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#s-ldd").click(function () {
+            if ($("#l-dd").is(":visible"))
+                $("#l-dd").hide(500);
+            else
+                $("#l-dd").show(500);
+        });
+        $("#l-dd").mouseleave(function () {
+            $("#l-dd").hide(500);
+        });
+
+    });
+</script>

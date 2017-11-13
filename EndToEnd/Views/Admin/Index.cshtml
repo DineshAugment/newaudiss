@@ -1,0 +1,92 @@
+﻿@model PagedList.IPagedList<EndToEnd.Models.ExpandedUserDTO>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<style>
+    /*#divmain .div-menu ul li {
+        display: inline-block !important;
+        line-height: 4px !important;
+        padding: 15px;
+    }*/
+
+    .btn.btn-default {
+        float: right;
+        margin: 2px;
+    }
+
+    .btn-search {
+        margin: -3% 68% 4px 23% !important;
+    }
+</style>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-default" })
+    @Html.ActionLink("Edit Roles", "ViewAllRoles", null, new { @class = "btn btn-default" })
+    @Html.ActionLink("Back to Home", "../", "Home", null, new { @class = "btn btn-default" })
+</p>
+<br />
+@using (Html.BeginForm("Index", "Admin", FormMethod.Get))
+{
+
+    <div class="form-group">
+        Search:&nbsp; @Html.TextBox("searchStringUserNameOrEmail", ViewBag.CurrentFilter as string, new { @class = "form-control text-box single-line" })
+
+        <input type="submit" value="Search" class="btn btn-default btn-search" />
+    </div>
+}
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            Email
+        </th>
+        <th>
+            Locked Out
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LockoutEndDateUtc)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditUser", new { UserName = item.UserName }) |
+                @if ((item.UserName.ToLower() != this.User.Identity.Name.ToLower()))
+                {
+                    @Html.ActionLink("Delete", "DeleteUser", new { UserName = item.UserName },
+                    new { onclick = "return confirm('Are you sure you wish to delete this user?');" })
+                }
+            </td>
+        </tr>
+    }
+
+
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model,
+    page => Url.Action("Index",
+    new
+    {
+        page,
+        searchStringUserNameOrEmail = ViewBag.searchStringUserNameOrEmail,
+        currentFilter = ViewBag.CurrentFilter
+    }))
+<hr />
+
+<script>
+    $(document).ready(function () {
+        $("#useradmin").addClass("selected");
+        $("#useradmin img").prop("src", "/Images/useradmin1.png");
+    });
+</script>

@@ -1,0 +1,101 @@
+﻿@model PagedList.IPagedList<EndToEnd.Models.Control>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Home Page";
+}
+<style>
+
+</style>
+
+<h2>My Controls</h2>
+<div id="divControlList">
+    @{Html.RenderAction("Index_Partial", "Home");}
+</div>
+<h2>My Tasks</h2>
+@*@using (Html.BeginForm("Index", "Search"))
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.Label("Search", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="search" name="searchString" value="@ViewBag.searchString " class="form-control" />
+                </div>
+            </div>
+        </div>
+    }*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Control Name")
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model[0].CustomerName)
+                </th>*@
+            <th>
+                @Html.DisplayName("Description")
+            </th>
+            <th>
+                @Html.DisplayName("Created Date")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td width="100">
+                    @Html.DisplayFor(modelItem => item.ControlName)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.CustomerName)
+                    </td>*@
+                <td width="100">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td width="100">
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td width="100">
+                    @Html.ActionLink("Action", "EditCtrl", new { id = item.ControlID })
+
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="5" align="center">No records found</td>
+        </tr>
+    }
+
+</table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model,
+    page => Url.Action("Index",
+    new
+    {
+        page,
+        searchStringUserNameOrEmail = ViewBag.searchStringUserNameOrEmail,
+        currentFilter = ViewBag.CurrentFilter
+    }))
+
+<script>
+    $(document).ready(function () {
+        $("#dashboard a").addClass("selected");
+    });
+
+</script>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @*@Scripts.Render("~/bundles/jqueryui")*@
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+}

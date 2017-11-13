@@ -1,0 +1,63 @@
+﻿@model IEnumerable<EndToEnd.Models.ActiveDirectoryModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Search", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="search" name="SearchText" value="@ViewBag.SearchText" class="form-control" />
+            </div>
+        </div>
+    </div>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Username")
+        </th>
+        <th>
+            @Html.DisplayName("Email ID")
+        </th>
+        <th>
+            @Html.DisplayName("First Name")
+        </th>
+        <th>
+            @Html.DisplayName("Last Name")
+        </th>
+    </tr>
+    @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+
+            </tr>
+        }
+    }
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#activedirec").addClass("selected");
+        $("#activedirec img").prop("src", "/Images/activedirec1.png");
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#useradmin").addClass("selected");
+    });
+</script>

@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js">
+
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Audiss Portal</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+    </style>
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-static-top" id="divmain">
+        <div class="container">
+            <div class="navbar-header">
+
+                @Html.ActionLink("AUDISS", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+            </div>
+            <div class="navbar-collapse collapse">
+                @Html.Partial("_LoginPartial")
+                @if (Request.IsAuthenticated)
+                {
+                    if (Request.IsAuthenticated)
+                    {
+                        <div class="div-menu">
+                            <ul class="ul-menu">
+
+                                <li id="dashboard" title="">
+                                    <a href="@Url.Action("Index", "Home")">Dashboard</a>
+                                </li>
+                                @{bool isAdmin = HttpContext.Current.User.IsInRole("Administrator");}
+
+                                @if (isAdmin)
+                                {
+                                    <li id="createctrl" title="createctrl">
+                                        <a href="@Url.Action("CreateCtrl", "Home")">Create Control</a>
+                                    </li>
+
+                                    <li id="useradmin">
+                                        <a class="ddl-menu">Administration</a>
+                                        <div class="dropdown">
+                                            <div class="dropdown-content">
+                                                <a href="@Url.Action("Index", "Admin")">User Administration</a>
+                                                <a href="@Url.Action("List", "ActiveDirectory")">Datasource List</a>
+                                                <a href="@Url.Action("Index", "ControlType")">Datasource Type</a>
+                                            </div>
+                                        </div>
+
+
+                                    </li>
+
+                                    <li id="report" title="report">
+                                        <a href="@Url.Action("Index", "Reports")">Reports</a>
+                                    </li>
+                                }
+
+
+                                @*<a href="@Url.Action("Index", "Admin")">
+                                        <li id="useradmin" title="User Administration">
+                                            <img src="/Images/useradmin.png" />
+                                        </li>
+                                    </a>
+
+                                    <a href="@Url.Action( "CreateCtrl", "Home")">
+                                        <li id="createcontrol" title="Create Control">
+                                            <img src="/Images/createcontrol.png" />
+                                        </li>
+                                    </a>
+
+                                    <a href="@Url.Action( "Index", "Reports")">
+                                        <li id="report" title="View Report">
+                                            <img src="/Images/report.png" />
+                                        </li>
+                                    </a>*@
+
+                                    @*<a href="@Url.Action("Index", "ActiveDirectory")">
+                                            <li id="activedirec" title="Active Directory Users">
+                                                <img src="/Images/activedirec.png" />
+                                            </li>
+                                        </a>*@
+
+                                    @*<li>@Html.ActionLink("Dashboard", "Index", "Home", new { area = "" })</li>
+                                        <li>@Html.ActionLink("User Administration", "Index", "Admin")</li>
+                                        <li>@Html.ActionLink("Create Control", "CreateCtrl", "Home")</li>
+                                        <li>@Html.ActionLink("Add Role", "Index", "Role")</li>
+                                        <li>@Html.ActionLink("View Report", "Index", "Reports")</li>*@
+                                </ul>
+                            </div>
+                                        }
+                                    }
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Audiss Portal</p>
+    </footer>
+
+    @*@Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/jqueryui")
+        @Scripts.Render("~/bundles/jqueryval")*@
+    @RenderSection("scripts", required: false)
+</body>
+</html>

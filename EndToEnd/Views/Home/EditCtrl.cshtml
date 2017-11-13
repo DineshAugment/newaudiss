@@ -1,0 +1,257 @@
+﻿@model EndToEnd.Models.Control
+@{
+    ViewBag.Title = "EditSave";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<style>
+    .deleteItem {
+        color: #ff0000;
+    }
+
+    select {
+        width: 100% !important;
+    }
+
+    .body-content .header-edit-ctrl {
+        font-size: 20px;
+        background: #c4dbeb;
+        padding: 10px 15px;
+        font-weight: bold;
+        color: #214b67;
+        margin-bottom: 20px;
+        margin-top: 15px;
+    }
+
+    .header-edit-ctrl p {
+        float: right;
+        padding-right: 50%;
+        color: #0b8c48;
+    }
+</style>
+
+<div class="container body-content">
+    <div class="header-edit-ctrl">
+        Edit Control
+        <p>Status : @Model.Status</p>
+    </div>
+    <div class="editcontrols">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Control Info</h3>
+                @using (Html.BeginForm("EditSave", "Home", new { id = Model.ControlID }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.ControlID)
+
+                        <div class="form-group ">
+                            @Html.LabelFor(model => model.ControlName, new { @class = "control-label col-md-4 mandatory" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.ControlName)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CustomerName, htmlAttributes: new { @class = "control-label col-md-4 mandatory" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Upload Attachment", new { @class = "control-label col-md-4" })
+                            <div class="col-md-8" id="fileList">
+                                <div class="div-upload-file" style="width:100%">
+                                    <input type="file" name="files" value="" multiple="multiple" />
+                                    <p>Drop files here</p>
+                                </div>
+                                <div id="fileNameList"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(model => model.Status, new SelectList(ViewBag.UserRole, "Id", "Status", Model.Status))
+                                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.AssignedTo, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(model => model.AssignedTo, new SelectList(ViewBag.UserList, "Id", "UserName"))
+                                @Html.ValidationMessageFor(model => model.AssignedTo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ControlType, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(model => model.ControlType, new SelectList(ViewBag.ControlTypeItems, "Name", "Name", Model.ControlType), new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ControlType, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Comments </label>
+                            <div class="col-md-8">
+                                <textarea type="text" name="WorkFlowComments" class="form-control"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-md-8">
+                                <input type="submit" value="Save" onclick="$('form').submit();" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-md-4">
+                <div class="comments-par">
+                    <h3>Comments List</h3>
+                    <div class="comments-div">
+                        @if (Model.Workflows != null && Model.Workflows.Count > 0)
+                        {
+                            foreach (var objWorkFlows in Model.Workflows)
+                            {
+                                if (!string.IsNullOrEmpty(objWorkFlows.Comments))
+                                {
+                                    <ul>
+                                        <li class="td-action-by">@objWorkFlows.ActionBy  :</li>
+                                        <li class="td-Comments"><p>@objWorkFlows.Comments</p></li>
+                                    </ul>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <ul>
+                                <li class="td-action-by">No comments</li>
+                                <li class="td-Comments"><p></p></li>
+                            </ul>
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="attachall">
+                    <h3>Attachments</h3>
+                    <ul class="attachment">
+                        @foreach (var item in Model.FileDetails)
+                        {
+                            <li>
+                                <a class="title" target="_blank" href="@Url.Content(string.Format("~/Content/File/{0}{1}", item.ID, Path.GetExtension(item.FileName)))">@item.FileName</a>
+                                <a> <span id="@string.Concat(item.ID.ToString(), Path.GetExtension(item.FileName))" class="deleteItem"> X </span></a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>@ViewBag.DomainName users</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Username")
+            </th>
+            <th>
+                @Html.DisplayName("Email ID")
+            </th>
+            <th>
+                @Html.DisplayName("First Name")
+            </th>
+            <th>
+                @Html.DisplayName("Last Name")
+            </th>
+        </tr>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model.ActiveDirectoryUsers)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmailId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirtName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastNamw)
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td align="center" colspan="4"> No records found</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="div-backtolist">
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var text2 = '@Model.Status';
+        $("#Status option").filter(function () {
+            return this.text == text2;
+        }).attr('selected', true);
+
+        $("#dashboard").addClass("selected");
+        $("#dashboard img").prop("src", "/Images/dashboard1.png");
+
+        $(".attachment a span").click(function () {
+            var element = $(this);
+            $.ajax({
+                url: '@Url.Action("DeleteFile", "Home")',
+                data: { id: element.prop("id") },
+                success: function (data) {
+                    element.closest("li").remove();
+                }
+            });
+        });
+
+        $("input[type='file']").change(function () {
+            var files = $(this)[0].files;
+            var str = "";
+            for (var i = 0; i < files.length; i++) {
+                str += "<p>" + files[i].name + "</p>";
+            }
+            $("#fileList #fileNameList").html(str);
+        });
+    });
+
+</script>

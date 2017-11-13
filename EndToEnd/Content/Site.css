@@ -1,0 +1,414 @@
+﻿@import 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800';
+@import 'https://fonts.googleapis.com/css?family=Raleway:400,700';
+
+a,
+a:hover,
+button {
+    transition: 0.6s ease;
+}
+
+body {
+    padding-top: 0;
+    font-family: 'Open Sans', sans-serif;
+    background: #f1f1f1;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select {
+    max-width: 280px;
+}
+
+textarea {
+    max-width: 350px;
+    min-height: 150px;
+}
+
+.navbar-inverse {
+    margin-bottom: 0 !important;
+}
+
+#divmain .navbar-collapse {
+    float: left;
+    width: 89%;
+    margin-bottom: 0;
+}
+
+#divmain .div-menu {
+    float: left;
+    margin-left: 5%;
+    left: 0 !important;
+    position: inherit !important;
+}
+
+#divmain .navbar-inverse {
+    background: linear-gradient(#0092cf, #008cc6, #0082b8);
+    border-color: #223c6d;
+}
+
+#divmain .div-menu ul li {
+    padding: 0 15px;
+    line-height: 30px;
+    margin: 20px 0;
+    display: inline-block;
+}
+
+    #divmain .div-menu ul li a {
+        color: #fff !important;
+        padding: 5px 10px !important;
+        text-decoration: none !important;
+    }
+
+#divmain .navbar-brand {
+    padding: 15px;
+    line-height: 40px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 25px;
+    color: #d6e9c6;
+    font-weight: 700;
+}
+
+#divmain .div-menu ul li a:hover {
+    background: #4fa3dc !important;
+    border-radius: 5px !important;
+}
+
+.body-content h2 {
+    font-size: 20px;
+    background: #c4dbeb;
+    padding: 10px 15px;
+    font-weight: 600;
+    color: #214b67;
+    margin-bottom: 20px;
+}
+
+.body-content h4 {
+    font-size: 20px;
+    background: #c4dbeb;
+    padding: 10px 15px;
+    font-weight: 600;
+    color: #214b67;
+    margin-bottom: 20px;
+}
+
+
+.body-content .btn {
+    background: #006c99;
+    color: #fff;
+    border-color: #2373a9;
+}
+
+footer {
+    background: #3B547B;
+    color: #fff;
+    text-align: center;
+    padding: 8px 0;
+}
+
+    footer p {
+        margin: 10px 0;
+    }
+
+.div-backtolist {
+    margin-bottom: 10px;
+    background: #006c99;
+    display: inline-block;
+    padding: 7px 10px;
+    border-radius: 8px;
+    float: right;
+}
+
+    .div-backtolist a {
+        color: white;
+    }
+
+select {
+    width: 50% !important;
+}
+
+.selected {
+    background: #4fa3dc;
+    border-radius: 5px;
+}
+
+
+
+#divControlList table {
+    width: 100%;
+    margin-bottom: 20px;
+    border: 0;
+}
+
+thead tr, .table tr th {
+    background: #3b547b;
+    color: #fff;
+}
+
+.div-backtolist {
+    border-radius: 4px;
+}
+
+.comments-div ul {
+    margin: 0;
+    padding: 0;
+}
+
+.pagination > li > a, .pagination > li > span {
+    background: #006c99 none repeat scroll 0 0 !important;
+    border: 1px solid white;
+    border-radius: 0;
+    float: left;
+    line-height: 1.42857;
+    margin: 2px;
+    position: relative;
+    text-decoration: none;
+}
+
+.pagination > li:first-child > a, .pagination > li:first-child > span, .pagination > li:last-child > a, .pagination > li:last-child > span {
+    border-radius: 0;
+}
+
+.pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus {
+    background-color: #8fa7b1 !important;
+}
+
+
+.pagination li a {
+    color: white !important;
+}
+
+
+.pagination .active a {
+    background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top, #eaeaea, #bdbdbd) repeat scroll 0 0 !important;
+    color: black !important;
+    background-color: #ccd8e2 !IMPORTANT;
+}
+
+.pagination {
+    border-radius: 4px;
+    display: inline-block;
+    float: right;
+    margin: 20px 0;
+    padding-left: 0;
+    margin-top: -27px;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 20px;
+    background: #efefef;
+}
+
+#divmain.navbar-inverse {
+    background: #3B547B;
+    border-color: transparent;
+}
+
+#divmain .nav.navbar-nav.navbar-right {
+    margin: 15px 0 0;
+}
+
+.user #l-dd.l-dd {
+    background: #A4A466;
+    border-radius: 0;
+    margin: 60px 0 0 65px;
+    border: 0;
+}
+
+    .user #l-dd.l-dd li {
+        border-top: 1px solid #ffffff;
+    }
+
+#divmain .div-menu ul {
+    margin-bottom: 0;
+}
+
+.user li a .user_profile_image img {
+    margin: 5px 7px;
+}
+
+.user li a .user_profile_image {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: none;
+    height: 45px;
+    width: 50px;
+}
+
+.l-dd li .lout {
+    background: url("../Images/logout.png") no-repeat left center;
+}
+
+.user .l-dd li .cpw {
+    background: url("../Images/ico-cp.png") no-repeat left center;
+}
+
+.body-content input[type="password"], .body-content input[type="text"] {
+    border-radius: 0;
+    height: 35px;
+    border: 1px solid #ccc;
+}
+
+.body-content select {
+    border-radius: 0;
+    height: 40px;
+    border: 1px solid #ccc;
+}
+
+.body-content textarea {
+    border-radius: 0;
+    border: 1px solid #ccc;
+}
+
+.body-content input[type="file"] {
+    border: 0;
+}
+
+.dropdown {
+    position: relative !important;
+    display: inline-block !important;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute !important;
+    background-color: #A4A466;
+    min-width: 160px !important;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    margin: 9px -140px;
+}
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content .ddl-menu:hover {
+        background-color: #f1f1f1;
+    }
+
+#useradmin:hover .dropdown-content {
+    display: block;
+}
+
+.editcontrols ul.attachment {
+    margin: 0;
+    padding: 0;
+}
+
+    .editcontrols ul.attachment .deleteItem {
+        float: right;
+    }
+
+    .editcontrols ul.attachment li {
+        line-height: 25px;
+        border-bottom: 1px solid #ccc;
+        padding: 8px 0;
+    }
+
+        .editcontrols ul.attachment li:last-child {
+            border-bottom: 0;
+        }
+
+        .editcontrols ul.attachment li:before {
+            content: "\2713 ";
+            color: #000;
+        }
+
+.editcontrols .form-horizontal {
+    background: #f2faff;
+    padding: 15px;
+}
+
+.editcontrols h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.form-horizontal .control-label {
+    text-align: left;
+}
+
+.editcontrols .td-action-by {
+    font-family: 'Raleway', sans-serif;
+    font-size: 15px;
+    color: #333;
+    font-weight: 700;
+}
+
+.editcontrols .comments-div {
+    border: 1px solid #bdd5da;
+    padding: 15px;
+}
+
+    .editcontrols .comments-div li {
+        border-bottom: 1px dashed #ccc;
+        padding-bottom: 5px;
+    }
+
+        .editcontrols .comments-div li.td-Comments {
+            border-bottom: 0;
+            padding-top: 10px;
+        }
+
+ul li {
+    list-style-type: none;
+}
+
+.attachment span {
+    cursor: pointer;
+}
+
+.validation-summary-valid span, .mandat {
+    color: #FF0000;
+    float: left;
+    font-weight: bold;
+    position: absolute;
+}
+
+.mandatory.control-label:after {
+    content: "*";
+    color: red;
+    font-weight: bold;
+    padding: 0 3px;
+}
+
+.div-upload-file input {
+    opacity: 0;
+    width: 350px;
+    height: 150px;
+}
+
+
+.div-upload-file {
+    width: 37%;
+    height: 150px;
+    border: 2px dashed #bbb;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding: 25px;
+    text-align: center;
+    font: 20pt bold 'Vollkorn';
+    color: #bbb;
+}
+
+    .div-upload-file p {
+        margin: -39% 8%;
+    }

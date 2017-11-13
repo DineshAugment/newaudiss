@@ -1,0 +1,137 @@
+﻿@model PagedList.IPagedList<EndToEnd.Models.Workflow>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<style>
+    .ui-autocomplete {
+        max-height: 150px;
+        overflow-y: scroll;
+    }
+
+    .ui-menu .ui-menu-item a {
+        display: list-item;
+        font-weight: normal;
+        line-height: 1.5;
+        min-height: 0;
+        padding: 3px 0.4em;
+        text-decoration: none;
+    }
+
+    .ui-corner-all {
+        border: 1px dotted;
+        line-height: 2;
+    }
+
+</style>
+
+@using (Html.BeginForm("Index", "Reports", FormMethod.Get))
+{
+
+    @*<div class="form-group">
+            Search:&nbsp; @Html.TextBox("searchStringUserNameOrEmail", ViewBag.CurrentFilter as string)
+
+            <input type="submit" value="Search" />
+        </div>
+        <br />*@
+}
+
+<table class="table">
+    <tr>
+        <th width="250px">
+            @Html.DisplayName("Control Name")
+        </th>
+        <th  width="150px">
+            @Html.DisplayName("Action Date")
+        </th>
+        <th width="200px">
+            @Html.DisplayName("Action By")
+        </th>
+        <th width="150px">
+            @Html.DisplayName("Status From")
+        </th>
+        <th width="150px">
+            @Html.DisplayName("Status To")
+        </th>
+        <th width="220px">
+            @Html.DisplayName("Comments")
+        </th>
+        <th></th>
+    </tr>
+
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Control.ControlName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActionDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActionBy)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StatusFrom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StatusTo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comments)
+                    </td>
+                </tr>
+            }
+            @*<tr>
+                <td colspan="6" align="center">
+                    <div>
+                        <input type="hidden" id="pageNo" name="PageNo" />
+                        <button type="submit" id="btnSubmit">
+                            <img src="/Images/pdf.png">
+                        </button>
+                    </div>
+                </td>
+            </tr>*@
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" align="center">No records found</td>
+            </tr>
+        }
+    </tbody>
+
+
+</table>
+
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model,
+    page => Url.Action("Index",
+    new
+    {
+        page,
+        searchStringUserNameOrEmail = ViewBag.searchStringUserNameOrEmail,
+        currentFilter = ViewBag.CurrentFilter
+    }))
+
+
+<div class="pdf-download" title="Download page">
+    <input type="hidden" id="pageNo" name="PageNo" />
+    <button type="submit" id="btnSubmit">
+        <img src="~/Images/pdf.png">
+    </button>
+    <span>Download Page</span>
+</div>
+
+@*@Html.PagedListPager(Model, page => Url.Action("Index_Partial", page),
+    PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions()
+    {
+        HttpMethod = "GET",
+        UpdateTargetId = "Index_Partial"
+    }))*@
+
+
+

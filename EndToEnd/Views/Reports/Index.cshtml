@@ -1,0 +1,163 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<head>
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.0.min.js"></script>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            padding: 16px 0;
+        }
+
+        .tbl-srch input[type='text'] {
+            padding: 0 6px;
+        }
+
+        .tbl-srch tbody tr td {
+            padding: 0 10px;
+        }
+
+        .tbl-srch {
+            margin: 1.5% 0;
+        }
+
+        .pdf-download {
+            float: right;
+            padding: 1.7% 40%;
+        }
+
+        .tbl-srch tr {
+            height: 50px;
+        }
+
+            .tbl-srch tr input[type=text] {
+                width: 250px !important;
+            }
+
+        .pdf-download span {
+            display: block;
+            margin: 5px -22px;
+        }
+    </style>
+</head>
+<div>
+    <form action="@Url.Action("CurrentPageDownload","PDF")" method="post">
+        <table class="tbl-srch">
+            <tbody>
+                <tr>
+                    <td>
+                        <input name="ControlName" type="text" id="controlNameAC" placeholder="Control Name" />
+                    </td>
+                    <td>
+                        <input type="text" name="FromDate" id="actionFromDate" placeholder="Action From Date" style="width:130px;" />
+                    </td>
+                    <td>
+                        <input type="text" name="ToDate" id="actionToDate" placeholder="Action To Date" style="width:130px;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="text" name="ActionBy" id="actionBy" placeholder="Action By" style="width:130px;" />
+                    </td>
+                    <td>
+                        <input type="text" name="StatusFrom" id="statusFrom" placeholder="Status From" style="width:130px;" />
+                    </td>
+                    <td>
+                        <input type="text" name="StatusTo" id="statusTo" placeholder="Status To" style="width:130px;" />
+                    </td>
+                    <td>
+                        <button id="btnSeach" type="button" class="btn btn-default">Search</button>
+                    </td>
+                    <td>
+                        <button id="btnCancel" type="button" class="btn btn-default">Cancel</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="divControlList">
+            @{Html.RenderAction("Index_Partial", "Reports");}
+        </div>
+
+    </form>
+</div>
+<script type="text/javascript">
+    var txtControlName = undefined;
+    $(document).ready(function () {
+
+        $("#report a").addClass("selected");
+        $("#report img").prop("src", "/Images/report1.png");
+
+        @*$("#controlNameAC").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("GetControlList", "Reports")',
+                    data: { searchText: request.term },
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    traditional: true,
+                    async: true,
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.ControlName,
+                                value: item.ControlID,
+                            }
+                        }));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                event.preventDefault();
+                $("#controlNameAC").val(ui.item.label);
+            }
+        }).bind('focus', function (data) {
+            $("#controlNameAC").autocomplete("search", " ");
+        })*@
+
+        $("#actionFromDate").datepicker();
+        $("#actionToDate").datepicker();
+        $("#btnSeach").click(function () {
+            var objSrch = {
+                ControlName: $("#controlNameAC").val(),
+                FromDate: $("#actionFromDate").val(),
+                ToDate: $("#actionToDate").val(),
+                ActionBy: $("#actionBy").val(),
+                StatusFrom: $("#statusFrom").val(),
+                StatusTo: $("#statusTo").val(),
+            };
+
+            $.get('@Url.Action("Index_Partial", "Reports")', {
+                ControlName: objSrch.ControlName, FromDate: objSrch.FromDate,
+                ToDate: objSrch.ToDate, ActionBy: objSrch.ActionBy,
+                StatusFrom: objSrch.StatusFrom, StatusTo: objSrch.StatusTo,
+            }, function (data) {
+                $("#divControlList").empty().html(data);
+            });
+        });
+
+        $("#btnCancel").click(function () {
+            $.get('@Url.Action("Index_Partial", "Reports")', {
+            }, function (data) {
+                $("input[type='text']").val('');
+                $("#divControlList").empty().html(data);
+            });
+        });
+
+        $("button[type='submit']").on("click", function () {
+            $("#pageNo").val($(".pagination li.active a").text());
+        });
+
+        $(window).keydown(function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+    });
+</script>
+

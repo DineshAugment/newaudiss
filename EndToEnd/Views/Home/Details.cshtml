@@ -1,0 +1,164 @@
+﻿@model EndToEnd.Models.Control
+@{
+    ViewBag.Title = "EditSave";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+<style>
+    .deleteItem {
+        color: #ff0000;
+    }
+
+    select {
+        width: 100% !important;
+    }
+</style>
+<div class="container body-content">
+    <h2>Control Details</h2>
+    <div class="editcontrols">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Control Info</h3>
+                @using (Html.BeginForm("EditSave", "Home", new { id = Model.ControlID }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.ControlID)
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ControlName, new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.ControlName)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CustomerName, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ControlType, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.ControlType, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.Status, new { @onchange = "this.form.submit();" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.AssignedTo, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DisplayFor(model => model.AssignedTo)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-8" style="margin-left: 154px; margin-top: -32px;">
+                                <ul class="attachment"></ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-md-4">
+                <div class="comments-par">
+                    <h3>Comments List</h3>
+                    <div class="comments-div">
+                        @if (Model.Workflows != null && Model.Workflows.Count > 0)
+                        {
+                            foreach (var objWorkFlows in Model.Workflows)
+                            {
+                                if (!string.IsNullOrEmpty(objWorkFlows.Comments))
+                                {
+                                    <ul>
+                                        <li class="td-action-by">@objWorkFlows.ActionBy  :</li>
+                                        <li class="td-Comments"><p>@objWorkFlows.Comments</p></li>
+                                    </ul>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <ul>
+                                No comments
+                            </ul>
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="attachall">
+                    <h3>Attachments</h3>
+                    <ul class="attachment">
+                        @foreach (var item in Model.FileDetails)
+                        {
+                            <li>
+                                <a class="title" target="_blank" href="@Url.Content(string.Format("~/Content/File/{0}{1}", item.ID, Path.GetExtension(item.FileName)))">@item.FileName</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <h2>History</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Action By</th>
+                <th>Status From</th>
+                <th>Status To</th>
+                <th>Action Date</th>
+            </tr>
+        </thead>
+        @if (Model != null)
+            {
+            <tbody>
+                @foreach (var objWorkFlow in Model.Workflows)
+                {
+
+                    <tr>
+                        <td>@objWorkFlow.ActionBy</td>
+
+                        <td>@objWorkFlow.StatusFrom</td>
+
+                        <td>@objWorkFlow.StatusTo</td>
+
+                        <td>@objWorkFlow.ActionDate.ToString("MM/dd/yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        }
+    </table>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#dashboard").addClass("selected");
+    });
+
+</script>

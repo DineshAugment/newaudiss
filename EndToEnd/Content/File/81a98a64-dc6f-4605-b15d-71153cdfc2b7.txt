@@ -1,0 +1,10 @@
+system Login Details:
+
+username:Dinesh
+password: india@123
+
+
+Browser Login
+----------
+username: dinesh
+password: India@123
